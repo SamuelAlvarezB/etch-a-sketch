@@ -9,3 +9,15 @@ h1 {
     margin: auto;
     display: flex;
 }
+
+#btn-container {
+    display: flex;
+    width: 50%;
+    justify-content: space-between;
+    margin: auto;
+    padding-top: 50px;
+}
+
+#slider-div {
+    display: flex;
+}
