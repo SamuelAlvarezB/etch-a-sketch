@@ -27,21 +27,46 @@ function addEventListenerToGrid() {
         grid.addEventListener("mousedown", (e) => {
             mouseDown = true;
             e.preventDefault();
-            //e.target.style.backgroundColor = "black";
+            if (!gridRainbow) {
+                e.target.style.backgroundColor = "black";
+            } else {
+                e.target.style.backgroundColor = getRandomColor();
+            }
         })
         grid.addEventListener("mouseenter", (e) => {
             if (mouseDown) {
-                e.target.style.backgroundColor = "black";
+                if (!gridRainbow) {
+                    e.target.style.backgroundColor = "black";
+                } else {
+                    e.target.style.backgroundColor = getRandomColor();
+                }
             }
         })
         grid.addEventListener("mouseup", (e) => {
             mouseDown = false;
         })
         grid.addEventListener("click", (e) => {
-            e.target.style.backgroundColor = "black";
+            if (!gridRainbow) {
+                e.target.style.backgroundColor = "black";
+            } else {
+                e.target.style.backgroundColor = getRandomColor();
+            }
         })
     })
 }
+
+function clearGrid() {
+    const grids = document.querySelectorAll(".row-div");
+    grids.forEach((grid) => {
+        grid.style.backgroundColor = "white";
+    })
+}
+
+function getRandomColor() {
+    return "rgb(" + ((Math.random() * 255) + 1) + "," + ((Math.random() * 255) + 1) + "," + ((Math.random() * 255) + 1) + ")";
+}
+
+let gridRainbow = false;
 
 fillGrid(16);
 addEventListenerToGrid();
@@ -49,11 +74,27 @@ addEventListenerToGrid();
 const sliderDiv = document.getElementById("slider-div");
 const slider = document.getElementById("grid-range");
 const sliderValue = document.createElement("p");
-sliderValue.textContent = slider.value;
+sliderValue.textContent = "Grid size: " + slider.value;;
 sliderDiv.appendChild(sliderValue);
 
-//slider.oninput = function() { sliderValue.textContent = this.value }
-
 slider.addEventListener("input", (e) => {
-    sliderValue.textContent = e.target.value;
+    mainDiv.innerHTML = "";
+    sliderValue.textContent = "Grid size: " + e.target.value;
+    fillGrid(e.target.value);
+    addEventListenerToGrid();
+})
+
+const clearBtn = document.getElementById("clear-btn");
+clearBtn.addEventListener("click", () => {
+    clearGrid();
+})
+
+const normalBtn = document.getElementById("normal-btn");
+normalBtn.addEventListener("click", () => {
+    gridRainbow = false;
+})
+
+const rainbowBtn = document.getElementById("rainbow-btn");
+rainbowBtn.addEventListener("click", () => {
+    gridRainbow = true;
 })
